@@ -1,0 +1,24 @@
+# Cloud Scheduler job definitions for DietBot
+# Replace placeholders before deploying: PROJECT_ID, REGION, CLOUD_RUN_URL, SCHEDULER_TOKEN, CLOUD_RUN_SA
+
+- name: projects/PROJECT_ID/locations/REGION/jobs/morning-checkin
+  schedule: "0 7 * * *"           # 07:00 every day
+  timeZone: "Europe/London"
+  httpTarget:
+    uri: https://CLOUD_RUN_URL/scheduled/morning_checkin
+    httpMethod: GET
+    headers:
+      Scheduler-Token: "SCHEDULER_TOKEN"
+    oidcToken:
+      serviceAccountEmail: CLOUD_RUN_SA@PROJECT_ID.iam.gserviceaccount.com
+
+- name: projects/PROJECT_ID/locations/REGION/jobs/daily-recap
+  schedule: "0 21 * * *"          # 21:00 every day
+  timeZone: "Europe/London"
+  httpTarget:
+    uri: https://CLOUD_RUN_URL/scheduled/daily_recap
+    httpMethod: GET
+    headers:
+      Scheduler-Token: "SCHEDULER_TOKEN"
+    oidcToken:
+      serviceAccountEmail: CLOUD_RUN_SA@PROJECT_ID.iam.gserviceaccount.com 
